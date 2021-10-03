@@ -6,10 +6,16 @@
   "dependencies": {
     "acorn-loose": "^8.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.2",
+    "nyc": "^15.1.0",
+    "yarn": "^1.22.15"
+  },
   "scripts": {
-    "start": "node index.js", 
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "test": "mocha test",
+    "coverage": "nyc npm run test"
   },
   "repository": {
     "type": "git",
