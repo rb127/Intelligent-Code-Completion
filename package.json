@@ -1,0 +1,30 @@
+{
+  "name": "intelligent-code-completion",
+  "version": "1.0.0",
+  "description": "An Intelligent Code Completion Library by Javaslipt",
+  "main": "index.js",
+  "dependencies": {
+    "acorn-loose": "^8.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.2",
+    "nyc": "^15.1.0",
+    "yarn": "^1.22.15"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "mocha test",
+    "coverage": "nyc npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rb127/Intelligent-Code-Completion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rb127/Intelligent-Code-Completion/issues"
+  },
+  "homepage": "https://github.com/rb127/Intelligent-Code-Completion#readme"
+}
