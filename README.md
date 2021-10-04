@@ -1,7 +1,7 @@
 # Intelligent-Code-Completion
 CSC302 Fall 2021 Javascript project on Intelligent Code Completion.
 
-## Setup Instructions:
+## Setup Instructions
 
 ### Prerequisites
 Instructions for Mac, Windows, Linux
@@ -41,7 +41,7 @@ docker run a1-302-container npm run coverage
 
 ## Preliminary project development plan
 
-### High-Level overview:
+### High-Level overview
 
 A JavaScript code completion library that can provide relevant ‘autocomplete’ suggestions in alphabetical order such as keywords, variables, methods etc using contextual awareness - Adding scope based recognition with more immediate scope suggestions showing up first.
 
@@ -75,7 +75,7 @@ Add ‘intelligence’ such as awareness about when to recommend variables vs me
 
 We opted for a dockerized node.js project that uses the Acorn Loose library to parse JavaScript code. We will use Yarn for package management and Mocha for testing.
 
-Our considered solutions are outlined below. For more insight into the decision making process, see meeting minutes
+Our considered solutions are outlined below. For more insight into the decision making process, see [meeting minutes](###meeting-minutes)
 
 ### Code Parsing Library
 
