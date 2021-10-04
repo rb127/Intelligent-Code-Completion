@@ -108,7 +108,7 @@ We will be using google meet, docs, zoom and discord to communicate and plan to 
 
 We opted for a dockerized node.js project that uses the Acorn Loose library to parse JavaScript code. We will use Yarn for package management and Mocha for testing.
 
-Our considered solutions are outlined below. For more insight into the decision making process, see [meeting minutes](###meeting-minutes)
+Our considered solutions are outlined below. For more insight into the decision making process, see [meeting minutes](#meeting-minutes)
 
 ### Code Parsing Library
 
@@ -194,7 +194,7 @@ Our considered solutions are outlined below. For more insight into the decision 
 
 
 ## Resources
-
+Documentation and links to libraries, resources considered are in the meeting notes.
 ### Meeting Minutes
 - [Meeting 1: Wed 29th September, 2021](https://docs.google.com/document/d/1dXp0yEnjxPTp3kQefl_CnRdnL33O-jUv8pgA_KJQ2fQ/edit?usp=sharing)
 - [Meeting 2: Thu 30th September, 2021](https://docs.google.com/document/d/18jUMXJImyhzzhKwzy0SrU01AEu82CpwTI77-9RHVskw/edit?usp=sharing)
