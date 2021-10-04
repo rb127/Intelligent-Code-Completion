@@ -4,8 +4,7 @@
   "description": "An Intelligent Code Completion Library by Javaslipt",
   "main": "index.js",
   "dependencies": {
-    "acorn-loose": "^8.2.1",
-    "yarn": "^1.22.15"
+    "acorn-loose": "^8.2.1"
   },
   "devDependencies": {
     "chai": "^4.3.4",
