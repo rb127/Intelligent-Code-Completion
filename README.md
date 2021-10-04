@@ -10,7 +10,7 @@ Instructions for Mac, Windows, Linux
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ### Installation and Usage
-1\. Clone this [repository](https://github.com/rb127/Intelligent-Code-Completion/tree/a1-docker-test)
+1\. Clone this [repository](https://github.com/rb127/Intelligent-Code-Completion/tree/main)
 
 ```
 git clone https://github.com/rb127/Intelligent-Code-Completion.git
@@ -55,7 +55,7 @@ Parse a target program to return a data structure of all variable and method nam
 
 **Individual responsibilities:**
 
-- Rohit: Efficient Traversal of the tree
+- Rohit: Efficient Traversal of the ESTree returned by parser
 - Chinmaya: Find Data structure for tree and store items
 - Shahmir: Figure out user input and testing
 
