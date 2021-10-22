@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "An Intelligent Code Completion Library by Javaslipt",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
-    "acorn-loose": "^8.2.1"
+    "acorn-loose": "^8.2.1",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "chai": "^4.3.4",

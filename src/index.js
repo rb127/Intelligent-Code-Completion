@@ -1,9 +1,17 @@
-const acornLoose = require("acorn-loose");
+import { parse } from 'acorn-loose';
+import { readFileSync } from 'fs';
 
-const helloWorld = () => acornLoose.parse("const a = 'Hello World'", {ecmaVersion: 2020});
+const readInputFile = () => {
+    try {
+        return readFileSync('input.js', 'utf-8')
+    } catch (err) {
+        console.error(err)
+    }
+}
 
-console.log(helloWorld());
-
-module.exports = {
-    helloWorld,
-};
+export const customParse = () => {
+    const parsedResult = parse(readInputFile(), { ecmaVersion: 2020 });
+    console.log(parsedResult);
+    return parsedResult
+}
+customParse();
