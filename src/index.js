@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 
 const readInputFile = () => {
     try {
-        return readFileSync('input.js', 'utf-8')
+        return readFileSync('src/input.js', 'utf-8')
     } catch (err) {
         console.error(err)
     }
