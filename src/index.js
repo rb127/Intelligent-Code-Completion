@@ -1,5 +1,6 @@
 import { parse } from 'acorn-loose';
 import { readFileSync } from 'fs';
+import { simple, full, ancestor } from 'acorn-walk';
 
 const readInputFile = () => {
     try {
@@ -14,4 +15,17 @@ export const customParse = () => {
     console.log(parsedResult);
     return parsedResult
 }
-customParse();
+
+const parsedData = customParse();
+
+simple(parsedData, {
+    Literal(node) {
+        console.log(`Found a literal: ${node.value}`)
+    }
+})
+
+ancestor(parsedData, {
+    Literal(_, ancestors) {
+        console.log("This literal's ancestors are:", ancestors.map(n => n.type))
+    }
+})
