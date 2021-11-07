@@ -31,6 +31,41 @@ describe('Acceptance tests', () => {
         `);
         expect(result).to.equal([])
     });
+
+    it('should return list of keywords after character', () => {
+        console.log("Running Test")
+        const result = returnSuggestions(
+            `const foo = c^
+        `);
+        expect(result).to.equal(["case", "catch", "char", "class", "const",	"continue"])
+    });
+
+    it('should return list of keywords after character', () => {
+        console.log("Running Test")
+        const result = returnSuggestions(
+            `const foo = c^
+        `);
+        expect(result).to.equal(["case", "catch", "char", "class", "const",	"continue"])
+    });
+
+    it('should return list that includes matched keywords', () => {
+        console.log("Running Test")
+        const result = returnSuggestions(
+            `const foo = c^
+        `);
+        expect(result).to.include(["case", "catch", "char", "class", "const",	"continue"])
+    });
+
+    it('should return list that includes matched imported libraries', () => {
+        console.log("Running Test")
+        const result = returnSuggestions(
+            `import parse from 'acorn-loose';
+            import * as promises from 'node:fs/promises;
+            
+            p^
+        `);
+        expect(result).to.include(["parse", "promises"])
+    });
 });
 
 describe('Unit tests', () => {
