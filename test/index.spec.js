@@ -46,6 +46,35 @@ describe('returnSugestions (Acceptance Tests)', () => {
         expect(result).to.equal(["case", "catch", "char", "class", "const", "continue"])
     });
 
+    it('should return matched suggestions as case insensitive', () => {
+        const result = returnSuggestions(
+            `const PIZZa = "Thin crust" 
+             const pico = "pizza store"
+             pi^
+        `);
+        expect(result).to.include(["PIZZa, pico"])
+    });
+
+    it('should return matched suggestions even if code is broken/incomplete before cursor',
+        () => {
+            const result = returnSuggestions(
+                `const Pizza = "Thin crust" 
+             const pico = 
+             pi^
+        `);
+            expect(result).to.include(["Pizza, pico"])
+        });
+
+    it('should return matched suggestions even if code is broken/incomplete before cursor',
+        () => {
+            const result = returnSuggestions(
+                `const Pizza = "Thin crust" 
+             pi^
+             const pico = 
+        `);
+            expect(result).to.include(["Pizza, pico"])
+        });
+
     it('should return list that includes matched imported libraries', () => {
         const result = returnSuggestions(
             `import parse from 'acorn-loose';
