@@ -29,7 +29,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         `);
     });
 
-    it('If all code is commented out then return empty list', () => {
+    it('should return empty list if cursor is in commented code', () => {
         const result = returnSuggestions(
             `\\ import parse from 'acorn-loose';
         \\ import * as promises from 'node:fs/promises
@@ -58,19 +58,19 @@ describe('returnSugestions (Acceptance Tests)', () => {
     it('should return matched suggestions even if code is broken/incomplete before cursor',
         () => {
             const result = returnSuggestions(
-                `const Pizza = "Thin crust" 
-             const pico = 
+                `const Pizza = "Thin crust"; 
+             const pico = ;
              pi^
         `);
             expect(result).to.include(["Pizza, pico"])
         });
 
-    it('should return matched suggestions even if code is broken/incomplete before cursor',
+    it('should return matched suggestions even if code is broken/incomplete after cursor',
         () => {
             const result = returnSuggestions(
                 `const Pizza = "Thin crust" 
              pi^
-             const pico = 
+             const pico = ;
         `);
             expect(result).to.include(["Pizza, pico"])
         });
