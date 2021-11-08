@@ -20,17 +20,15 @@ const readInputFile = () => {
 
 export const customParse = () => {
     const parsedResult = parse(readInputFile(), { ecmaVersion: 2020 });
-    console.log(parsedResult);
     return parsedResult
 }
 
 const parsedData = customParse();
-console.log(JSON.stringify(parsedData, 0, 2))
 writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
 
 
 let parsedNode = findNodeAt(parsedData, 64, 65, 'VariableDeclarator')
-console.log(parsedNode)
+// console.log(parsedNode)
 
 full(parsedData, node => {
     // console.log(`There's a ${node.type} node at ${node.ch}`)
@@ -39,43 +37,36 @@ full(parsedData, node => {
         writeFileSync("fullWalk.json", JSON.stringify(node, 0, 2))
         parsedNode = node
     }
-    // fullAncestor(node)
   })
 
-let nodeToPrint = ''
-  fullAncestor(parsedData, (node, state, ancestors) => {
+fullAncestor(parsedData, node => {
     // console.log(`There's a ${node.type} node at ${node.ch}`)
-    // if(node.type == 'Program'){
 
-    // }
-    // const nodeToPrint = node.type == 'Program'? JSON.stringify(node, 0, 2) : ''
-    // if(node.type == 'Program'){
-    //     writeFileSync("data.json", JSON.stringify(node, 0, 2))
-    //     parsedNode = node
-    // }
-    // fullAncestor(node)
-    if(node.start > 63 && node.end < 66)
-    {
-        console.log('saved')
-        console.log(ancestors)
+    if(node.type == 'Program'){
+        writeFileSync("fullAncestor.json", JSON.stringify(node, 0, 2))
+        parsedNode = node
     }
   })
-//   console.log(nodeToPrint)
 
-// ancestor(parsedData, {
-//     'VariableDeclaration': function (node, parents) {
-//       var parent = null;
-//       for (var i = parents.length - 1; i >= 0 && parent === null; i--) {
-//         if (node.kind === 'var' ? isScope(parents[i]) : isBlockScope(parents[i])) {
-//           parent = parents[i];
-//         }
-//       }
-//       parent.locals = parent.locals || {};
-//       node.declarations.forEach(function (declaration) {
-//         declarePattern(declaration.id, parent);
-//       });
-//     },
-// })
+// Template code for future use
+// let nodeToPrint = ''
+//   fullAncestor(parsedData, (node, state, ancestors) => {
+//     // console.log(`There's a ${node.type} node at ${node.ch}`)
+//     // if(node.type == 'Program'){
+
+//     // }
+//     // const nodeToPrint = node.type == 'Program'? JSON.stringify(node, 0, 2) : ''
+//     // if(node.type == 'Program'){
+//     //     writeFileSync("data.json", JSON.stringify(node, 0, 2))
+//     //     parsedNode = node
+//     // }
+//     // fullAncestor(node)
+//     if(node.start > 63 && node.end < 66)
+//     {
+//         console.log('saved')
+//         console.log(ancestors)
+//     }
+//   })
 
 ancestor(parsedData, {
     Literal(_, ancestors) {
@@ -84,10 +75,7 @@ ancestor(parsedData, {
     }
 })
 
-// console.log(JSON.stringify(findNodeAround(parsedData, 61), 0 ,2))
-// writeFileSync("fullWalk.json", JSON.stringify(node, 0, 2))
-
-
+// How to find cursor node given a cursor position
 const cursorPos = 69;
 let node = findNodeAround(parsedData, cursorPos - 1)
 writeFileSync("currentCursorNode.json", JSON.stringify(node, 0, 2))
