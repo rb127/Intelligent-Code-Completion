@@ -2,11 +2,11 @@ import { parse } from 'acorn-loose';
 import { readFileSync } from 'fs';
 import { simple, full, ancestor } from 'acorn-walk';
 
-const returnSuggestions = () => {
+export const returnSuggestions = () => {
     //TODO
 }
 
-const getCursorPosition = () => {
+export const getCursorPosition = () => {
     //TODO
 }
 

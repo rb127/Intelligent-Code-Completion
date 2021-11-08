@@ -1,6 +1,5 @@
-const assert = require('assert');
-const { expect } = require('chai');
-const { returnSuggestions, getCursorPosition } = require('../src/index')
+import { expect } from 'chai'
+import { returnSuggestions, getCursorPosition } from '../src/index.js'
 
 describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if file is empty', () => {
