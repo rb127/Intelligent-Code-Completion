@@ -2,6 +2,14 @@ import { parse } from 'acorn-loose';
 import { readFileSync } from 'fs';
 import { simple, full, ancestor } from 'acorn-walk';
 
+export const returnSuggestions = () => {
+    //TODO
+}
+
+export const getCursorPosition = () => {
+    //TODO
+}
+
 const readInputFile = () => {
     try {
         return readFileSync('src/input.js', 'utf-8')
