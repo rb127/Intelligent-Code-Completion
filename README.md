@@ -1,8 +1,8 @@
 # Intelligent-Code-Completion
 CSC302 Fall 2021 Javascript project on Intelligent Code Completion.
 Team Javaslipt.
-- Link to Assignment 1 Document
-- Link to Assignment 2 Document
+- [Link to Assignment 1 Document](https://github.com/rb127/Intelligent-Code-Completion/blob/main/A1.md)
+- [Link to Assignment 2 Document](https://github.com/rb127/Intelligent-Code-Completion/blob/main/A2.md)
 
 ## Setup Instructions
 
