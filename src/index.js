@@ -88,7 +88,7 @@ fullAncestor(parsedData, node => {
 ancestor(parsedData, {
     Literal(_, ancestors) {
         // console.log("This literal's ancestors are:", ancestors.map(n => n.type))
-        writeFileSync("ancestors.json", JSON.stringify(ancestors.map(n => n.type), 0, 2))
+        writeFileSync("ancestors.json", ancestors.map(n => n.type))
     }
 })
 
@@ -114,14 +114,34 @@ export const returnSuggestions = () => {
     console.log("Reference string is", getReferenceString(file, cursorPosition))
 
     const cursorNode = getCursorNode(cursorPosition)
-    fullAncestor(cursorNode, node => {
+    const nodeTypeFn = new Function(cursorNode.node.type)
+    console.log(nodeTypeFn)
+    console.log(cursorNode.node.start)
+    // ancestor(parsedData, {
+    //     Literal(_, ancestors) {
+    //         // console.log("This literal's ancestors are:", ancestors.map(n => n.type))
+    //         writeFileSync("ancestors.json", JSON.stringify(ancestors.map(n => n.type), 0, 2))
+    //     },
+    //     // Identifier(node, ancestors) {
+    //     //     //console.log("Found identifier")
+    //     //     // console.log("This literal's ancestors are:", ancestors.map(n => n.type))
+    //     //     if (node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
+    //     //         console.log("Found Cursor Node")
+    //     //         writeFileSync("ancestors.json", JSON.stringify(ancestors.map(n => n.type), 0, 2))
+    //     //     }
+    //     // }
+    // })
+    fullAncestor(parsedData, (node, err, ancestors) => {
         // console.log(`There's a ${node.type} node at ${node.ch}`)
 
-        if (node.type == 'Program') {
-            writeFileSync("fullCursorNodeAncestor.json", JSON.stringify(node, 0, 2))
+        if (node.type == cursorNode.node.type && node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
+            console.log("Found Cursor node")
+            console.log(ancestors)
+            writeFileSync("fullAncestor.json", JSON.stringify(node))
             parsedNode = node
         }
     })
+
 }
 
 returnSuggestions()
