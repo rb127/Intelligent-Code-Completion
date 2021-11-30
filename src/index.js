@@ -2,12 +2,15 @@ import { parse } from 'acorn-loose';
 import { readFileSync, writeFileSync } from 'fs';
 import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findNodeAfter } from 'acorn-walk';
 
-export const returnSuggestions = () => {
-    //TODO
-}
+const CURSOR_SYMBOL = '^'
 
-export const getCursorPosition = () => {
-    //TODO
+/* 
+fileContents: Input file read as String
+Returns cursor position as denoted by CURSOR_SYMBOL if present
+Returns -1 if no cursor symbol present
+*/
+export const getCursorPosition = (fileContents) => {
+    return fileContents.indexOf(CURSOR_SYMBOL)
 }
 
 const readInputFile = () => {
@@ -26,27 +29,41 @@ export const customParse = () => {
 const parsedData = customParse();
 writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
 
-
 let parsedNode = findNodeAt(parsedData, 64, 65, 'VariableDeclarator')
 // console.log(parsedNode)
+
+/*
+Returns the word just before the cursor.
+Returns '' if there is a space just before cursor instead of a word.
+*/
+export const getReferenceString = (fileContents, cursorPos) => {
+    var preCursorContent = fileContents.substring(0, cursorPos);
+    if (preCursorContent.indexOf(" ") > 0) {
+        const content = preCursorContent.split(" ");
+        return content[content.length - 1];
+    }
+    else {
+        return preCursorContent;
+    }
+}
 
 full(parsedData, node => {
     // console.log(`There's a ${node.type} node at ${node.ch}`)
 
-    if(node.type == 'Program'){
+    if (node.type == 'Program') {
         writeFileSync("fullWalk.json", JSON.stringify(node, 0, 2))
         parsedNode = node
     }
-  })
+})
 
 fullAncestor(parsedData, node => {
     // console.log(`There's a ${node.type} node at ${node.ch}`)
 
-    if(node.type == 'Program'){
+    if (node.type == 'Program') {
         writeFileSync("fullAncestor.json", JSON.stringify(node, 0, 2))
         parsedNode = node
     }
-  })
+})
 
 // Template code for future use
 // let nodeToPrint = ''
@@ -79,3 +96,20 @@ ancestor(parsedData, {
 const cursorPos = 69;
 let node = findNodeAround(parsedData, cursorPos - 1)
 writeFileSync("currentCursorNode.json", JSON.stringify(node, 0, 2))
+
+export const returnSuggestions = () => {
+    //TODO
+    // check validity of input
+    const file = readInputFile()
+    const cursorPosition = getCursorPosition(file)
+    // no caret symbol found 
+    if (cursorPosition === -1) {
+        console.log("No cursor position (caret symbol) found \nSuggestions: []")
+        return []
+    }
+
+    console.log("Cursor position is at", cursorPosition)
+    console.log("Reference string is", getReferenceString(file, cursorPosition))
+}
+
+returnSuggestions()
