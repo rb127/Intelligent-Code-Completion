@@ -42,7 +42,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         const result = returnSuggestions(
             `const foo = c^
         `);
-        expect(result).to.equal(["case", "catch", "char", "class", "const", "continue"])
+        expect(result).to.have.members(["case", "catch", "char", "class", "const", "continue"])
     });
 
     it('should return matched suggestions as case insensitive', () => {
@@ -51,7 +51,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
              const pico = "pizza store"
              pi^
         `);
-        expect(result).to.include(["PIZZa, pico"])
+        expect(result).to.include("PIZZa", "pico")
     });
 
     it('should return matched suggestions even if code is broken/incomplete before cursor',
@@ -61,7 +61,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
              const pico = ;
              pi^
         `);
-            expect(result).to.include(["Pizza, pico"])
+            expect(result).to.include("Pizza", "pico")
         });
 
     it('should return matched suggestions even if code is broken/incomplete after cursor',
@@ -71,7 +71,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
              pi^
              const pico = ;
         `);
-            expect(result).to.include(["Pizza, pico"])
+            expect(result).to.contain("Pizza", "pico")
         });
 
     it('should return list that includes matched imported libraries', () => {
@@ -81,7 +81,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             
             p^
         `);
-        expect(result).to.include(["parse", "promises"])
+        expect(result).to.include("parse", "promises")
     });
 
     it('should return list in order of most local, accessible scope', () => {
@@ -96,7 +96,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
                 }
             }
         `);
-        expect(result).to.equal(["foobar", "foobarbaz"])
+        expect(result).to.have.members(["foobar", "foobarbaz"])
     });
 
     it('return list should not include variables from scopes that are not referencable', () => {
@@ -112,7 +112,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
                 }
             }
         `);
-        expect(result).to.include(["foobar"])
+        expect(result).to.include("foobar")
     });
 
     it('should return list that includes variables and keywords if applicable', () => {
@@ -122,7 +122,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         const foo = "hello world"
         fo^ 
         `);
-        expect(result).to.include(["foo, for"])
+        expect(result).to.include("foo", "for")
     });
 
     it('should return list that includes class names', () => {
@@ -145,7 +145,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         // Usage:
         let user = new Us^
         `);
-        expect(result).to.include(["User"])
+        expect(result).to.include("User")
     });
 });
 
