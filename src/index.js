@@ -22,7 +22,7 @@ const readInputFile = () => {
 }
 
 export const parseInputFile = (fileContents) => {
-    const parsedResult = parse(fileContents, { ecmaVersion: 2020 });
+    const parsedResult = parse(fileContents, { ecmaVersion: 2021 });
     return parsedResult
 }
 
