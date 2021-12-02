@@ -1,6 +1,7 @@
 import { parse } from 'acorn-loose';
 import { readFileSync, writeFileSync } from 'fs';
 import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findNodeAfter } from 'acorn-walk';
+import { stringMatch } from '../src/string_matching.js'
 
 const CURSOR_SYMBOL = 'Ʌ'
 /* 
@@ -109,7 +110,7 @@ export const returnSuggestions = (file) => {
             writeFileSync("fullAncestor.json", JSON.stringify(node))
         }
     })
-    return masterList
+    return stringMatch(masterList, referenceString)
 
 }
 
