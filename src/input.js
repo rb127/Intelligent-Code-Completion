@@ -1,13 +1,25 @@
 
-{
-  const foobarbaz;
+const limit = 200
+for(let interior = 0; interior <= limit; interior++){
+  const infinite = "8"
   {
-      const foobar;
-      {
-          foibarɅ
-      }
+    const inferior = false
   }
 }
+
+function indefiniteFun (insideFun, inter){
+  inɅ
+}
+
+// {
+//   const foobarbaz;
+//   {
+//       const foobar;
+//       {
+//           foibar
+//       }
+//   }
+// }
 
 // {
 //   const foobar;
