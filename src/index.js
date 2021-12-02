@@ -43,7 +43,7 @@ export const getReferenceString = (fileContents, cursorPos) => {
 }
 
 // How to find cursor node given a cursor position
-const getCursorNode = (parsedData,cursorPos) => {
+const getCursorNode = (parsedData, cursorPos) => {
     let cursorNode = findNodeAround(parsedData, cursorPos - 1)
     writeFileSync("currentCursorNode.json", JSON.stringify(cursorNode, 0, 2))
     return cursorNode
@@ -64,7 +64,7 @@ export const returnSuggestions = (file) => {
     console.log("Cursor position is at", cursorPosition)
     const referenceString = getReferenceString(file, cursorPosition)
     console.log("Reference string is", referenceString)
-    if (referenceString == ""){
+    if (referenceString == "") {
         console.log("whitespace found before cursor \nSuggestions: []")
         return []
     }
@@ -78,7 +78,7 @@ export const returnSuggestions = (file) => {
     console.log(cursorNode.node.start)
 
     writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
-    
+
     fullAncestor(parsedData, (node, err, ancestors) => {
         // console.log(`There's a ${node.type} node at ${node.ch}`)
 
@@ -87,27 +87,41 @@ export const returnSuggestions = (file) => {
             // console.log(ancestors)
             for (let i = ancestors.length - 1; i >= 0; i--) {
                 const ancestor = ancestors[i]
-            // }            
-            // for (const ancestor of ancestors) {
-                if ("body" in ancestor && ancestor.type !== 'FunctionDeclaration'){                
-                    for (const subNode of ancestor.body){
-                        if (subNode.type === 'VariableDeclaration') {
-                            masterList.push(subNode.declarations[0].id.name)
-                        }
-                        else if (subNode.type === 'ClassDeclaration') {
-                            masterList.push(subNode.id.name)
-                        }
-                        else if (subNode.type === 'FunctionDeclaration') {
-                            masterList.push(subNode.id.name)
-                        }
-                        else if (subNode.type === 'ImportDeclaration') {
-                            masterList.push(subNode.specifiers[0].local.name)
+                // }            
+                // for (const ancestor of ancestors) {
+                if (ancestor.type === 'ForStatement') {
+                    if (ancestor.init?.type === 'VariableDeclaration') {
+                        masterList.push(ancestor.init.declarations[0].id.name)
+                    }
+                }
+                else {
+                    if ("body" in ancestor && ancestor.type !== 'FunctionDeclaration') {
+                        for (const subNode of ancestor.body) {
+                            if (subNode.type === 'VariableDeclaration') {
+                                masterList.push(subNode.declarations[0].id.name)
+                            }
+                            else if (subNode.type === 'ClassDeclaration') {
+                                masterList.push(subNode.id.name)
+                            }
+                            else if (subNode.type === 'FunctionDeclaration') {
+                                masterList.push(subNode.id.name)
+                                if(subNode.params?.length){
+                                    const paramsList = subNode.params
+                                    paramsList.forEach(parameter => {
+                                    masterList.push(parameter.name)
+                                    })
+                                }
+                            }
+                            else if (subNode.type === 'ImportDeclaration') {
+                                masterList.push(subNode.specifiers[0].local.name)
+                            }
                         }
                     }
                 }
+
             }
             console.log("MASTER", masterList)
-            writeFileSync("fullAncestor.json", JSON.stringify(node))
+            writeFileSync("fullAncestor.json", JSON.stringify(ancestors, 0, 2))
         }
     })
     return stringMatch(masterList, referenceString)
