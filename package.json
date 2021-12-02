@@ -7,7 +7,8 @@
   "dependencies": {
     "acorn-loose": "^8.2.1",
     "acorn-walk": "^8.2.0",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "fuse.js": "^6.4.6"
   },
   "devDependencies": {
     "chai": "^4.3.4",
