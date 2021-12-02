@@ -1,4 +1,6 @@
 node_modules/
 .nyc_output 
 .yarn
-.json
+currentCursorNode.json
+fullAncestor.json
+parsedData.json
