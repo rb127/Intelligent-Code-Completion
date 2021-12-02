@@ -3,7 +3,7 @@ import { returnSuggestions, getCursorPosition, getReferenceString } from '../src
 
 describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if file is empty', () => {
-        const result = returnSuggestions(` ^`);
+        const result = returnSuggestions(` Ʌ`);
         expect(result).to.have.lengthOf(0)
     });
 
@@ -15,7 +15,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if no matches found', () => {
         const result = returnSuggestions(
             `const abc = "foo";
-             foobarbaz^
+             foobarbazɅ
         `);
         expect(result).to.have.lengthOf(0)
     });
@@ -23,7 +23,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if no character before cursor', () => {
         const result = returnSuggestions(
             `const foo = "bar";
-             const a = fo ^
+             const a = fo Ʌ
         `);
         expect(result).to.have.lengthOf(0)
     });
@@ -33,14 +33,14 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `\\ import parse from 'acorn-loose';
         \\ import * as promises from 'node:fs/promises
         \\ const foo = "hello world"
-        \\ fo^ 
+        \\ foɅ 
         `);
         expect(result).to.have.lengthOf(0)
     })
 
     it('should return list of keywords after character', () => {
         const result = returnSuggestions(
-            `const foo = c^
+            `const foo = cɅ
         `);
         expect(result).to.have.members(["case", "catch", "char", "class", "const", "continue"])
     });
@@ -49,7 +49,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         const result = returnSuggestions(
             `const PIZZa = "Thin crust" 
              const pico = "pizza store"
-             pi^
+             piɅ
         `);
         expect(result).to.include("PIZZa", "pico")
     });
@@ -59,7 +59,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             const result = returnSuggestions(
                 `const Pizza = "Thin crust"; 
              const pico = ;
-             pi^
+             piɅ
         `);
             expect(result).to.include("Pizza", "pico")
         });
@@ -68,7 +68,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         () => {
             const result = returnSuggestions(
                 `const Pizza = "Thin crust" 
-             pi^
+             piɅ
              const pico = ;
         `);
             expect(result).to.contain("Pizza", "pico")
@@ -79,7 +79,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `import parse from 'acorn-loose';
             import * as promises from 'node:fs/promises;
             
-            p^
+            pɅ
         `);
         expect(result).to.include("parse", "promises")
     });
@@ -91,7 +91,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
                 {
                     const foobar;
                     {
-                        foo^
+                        fooɅ
                     }
                 }
             }
@@ -104,7 +104,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `{
                 const foobar;
                 {   
-                    const foo^;
+                    const fooɅ;
                 }
 
                 {
@@ -120,9 +120,26 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `import parse from 'acorn-loose';
         import * as promises from 'node:fs/promises
         const foo = "hello world"
-        fo^ 
+        foɅ 
         `);
         expect(result).to.include("foo", "for")
+    });
+
+    it('should return list that includes function names', () => {
+        const result = returnSuggestions(
+            `function hello() {
+                return 1
+            }
+
+            async function hi() {
+                return 2
+            }
+
+            const hey = () => {return 100}
+
+            hɅ
+        `);
+        expect(result).to.include("hello", "hey", "hi")
     });
 
     it('should return list that includes class names', () => {
@@ -142,8 +159,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
 
         }
 
-        // Usage:
-        let user = new Us^
+        let user = new UsɅ
         `);
         expect(result).to.include("User")
     });
@@ -151,7 +167,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
 
 describe('getCursorPosition', () => {
     it('should return cursor position given cursor signified by caret symbol', () => {
-        const result = getCursorPosition(`const foo = c^`);
+        const result = getCursorPosition(`const foo = cɅ`);
         expect(result).to.equal(13)
     });
 
@@ -163,13 +179,13 @@ describe('getCursorPosition', () => {
 
 describe('getReferenceString', () => {
     it('should return empty string if whitespace found before cursor pos', () => {
-        const file = "const foo ^"
+        const file = "const foo Ʌ"
         const referenceString = getReferenceString(file, 10);
         expect(referenceString).to.equal('')
     });
 
     it('should return correct string before cursor if no whitespace', () => {
-        const file = "const foo = bar^"
+        const file = "const foo = barɅ"
         const referenceString = getReferenceString(file, 15);
         expect(referenceString).to.equal('bar')
     });
