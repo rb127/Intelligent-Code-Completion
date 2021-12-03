@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { stringMatch } from '../src/stringMatching.js'
+import { stringMatch } from '../src/string_matching.js'
 
 describe('stringMatching', () => {
     it('should return empty list if the universe array is empty', () => {
