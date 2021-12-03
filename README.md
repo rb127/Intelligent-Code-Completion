@@ -55,4 +55,7 @@ Documentation and links to libraries, resources considered are in the meeting no
 - [Meeting 4: Thu 21st October, 2021](https://docs.google.com/document/d/17bgFjYa88fyUErvEHocLtkDPqDFH4f5HkfHGC3tBhgs/edit?usp=sharing)
 - [Meeting 5: Sat 23rd October, 2021](https://docs.google.com/document/d/1Z6i59fDntvy03hurxvEiZjc56CSQsSXYMxTVaD4YjjE/edit?usp=sharing)
 - [Meeting 6: Fri 29th October, 2021](https://docs.google.com/document/d/1HnSQW0GWYvV1vFqOx1-_qWLVqEipzCK88eVPRSkGyl8/edit?usp=sharing)
+- [Meeting 7: Fri 26th November, 2021](https://docs.google.com/document/d/1rwN_oyW8yxtiwHmXSZR22NJQ9o2Hm0suVyscn0CBAMA/edit?usp=sharing)
+- [Meeting 8: Wed 1st December, 2021](https://docs.google.com/document/d/1SrWlpSqZtCDEBgx5T_UDO6WKBbJo-3oTzBbJrc3ShQU/edit?usp=sharing)
+- [Meeting 9: Thu 2nd December, 2021](https://docs.google.com/document/d/1vUAL3mgTEHlBJBtCutWZKtSpvLCdjvrOmk-j5uutTBA/edit?usp=sharing)
 
