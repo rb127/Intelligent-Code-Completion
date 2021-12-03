@@ -85,12 +85,12 @@ fullAncestor(parsedData, node => {
 //     }
 //   })
 
-// ancestor(parsedData, {
-//     Literal(_, ancestors) {
-//         // console.log("This literal's ancestors are:", ancestors.map(n => n.type))
-//         writeFileSync("ancestors.json", ancestors.map(n => n.type))
-//     }
-// })
+ancestor(parsedData, {
+    Literal(_, ancestors) {
+        // console.log("This literal's ancestors are:", ancestors.map(n => n.type))
+        writeFileSync("ancestors.json", ancestors.map(n => n.type))
+    }
+})
 
 // How to find cursor node given a cursor position
 const getCursorNode = (cursorPos) => {
@@ -136,21 +136,17 @@ export const returnSuggestions = () => {
 
         if (node.type == cursorNode.node.type && node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
             console.log("Found Cursor node")
-            // console.log(ancestors)
+            console.log(ancestors)
             for (const ancestor of ancestors) {
-                if ("body" in ancestor){
-                    // console.log("BODY", ancestor.body)                    
+                if ("type" in ancestor){
                     for (const subNode of ancestor.body){
                         if (subNode.type === 'VariableDeclaration') {
                             masterList.push(subNode.declarations[0].id.name)
                         }
-                        else if (subNode.type === 'VariableDeclaration') {
-                            masterList.push(subNode.declarations[0].id.name)
-                        } 
                     }
                 }
             }
-            console.log("MASTER", masterList)
+            console.log(masterList)
             writeFileSync("fullAncestor.json", JSON.stringify(node))
             parsedNode = node
         }
