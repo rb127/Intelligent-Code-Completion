@@ -44,7 +44,7 @@ export const getReferenceString = (fileContents, cursorPos) => {
 }
 
 // How to find cursor node given a cursor position
-const getCursorNode = (parsedData, cursorPos) => {
+export const getCursorNode = (parsedData, cursorPos) => {
     let cursorNode = findNodeAround(parsedData, cursorPos - 1)
     writeFileSync("currentCursorNode.json", JSON.stringify(cursorNode, 0, 2))
     return cursorNode
@@ -59,10 +59,8 @@ export const returnSuggestions = (file) => {
         console.log("No cursor position (defined symbol) found \nSuggestions: []")
         return []
     }
-
-    console.log("Cursor position is at", cursorPosition)
     const referenceString = getReferenceString(file, cursorPosition)
-    console.log("Reference string is", referenceString)
+
     if (referenceString == "") {
         console.log("whitespace found before cursor \nSuggestions: []")
         return []
@@ -72,15 +70,24 @@ export const returnSuggestions = (file) => {
 
     const cursorNode = getCursorNode(parsedData, cursorPosition)
 
-    const nodeTypeFn = new Function(cursorNode.node.type)
-    console.log(nodeTypeFn)
-    console.log(cursorNode.node.start)
-
     writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
 
+    const addNamesToMasterList = (paramsList) => {
+        if(paramsList.length){
+            paramsList.forEach(parameter => {
+                if(parameter.type === "Identifier"){
+                    masterList.push(parameter.name)
+                }
+                else if (parameter.type === "AssignmentPattern"){
+                    masterList.push(parameter.left.name)
+                }
+            })
+        }
+    }
+
     fullAncestor(parsedData, (node, err, ancestors) => {
+        // Looking for cursor node 
         if (node.type == cursorNode.node.type && node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
-            console.log("Found Cursor node")
             for (let i = ancestors.length - 1; i >= 0; i--) {
                 const ancestor = ancestors[i]
                 if (ancestor.type === 'ForStatement') {
@@ -91,21 +98,13 @@ export const returnSuggestions = (file) => {
                     }
                 }
                 else if (ancestor.type === "ArrowFunctionExpression"){
-                    if(ancestor.params?.length){
-                        const paramsList = ancestor.params
-                        paramsList.forEach(parameter => {
-                            if(parameter.type === "Identifier"){
-                                masterList.push(parameter.name)
-                            }
-                            else if (parameter.type === "AssignmentPattern"){
-                                masterList.push(parameter.left.name)
-                            }
-                        })
-                    }
-                    
+                   addNamesToMasterList(ancestor.params)
+                }
+                else if (ancestor.type === "FunctionExpression"){
+                    addNamesToMasterList(ancestor.params)
                 }
                 else {
-                    if ("body" in ancestor && ancestor.type !== 'FunctionDeclaration') {
+                    if ("body" in ancestor && (ancestor.type === 'BlockStatement' || ancestor.type === 'Program')) {
                         try{
                         for (const subNode of ancestor.body) {
                             if (subNode.type === 'VariableDeclaration') {
@@ -118,17 +117,7 @@ export const returnSuggestions = (file) => {
                             }
                             else if (subNode.type === 'FunctionDeclaration') {
                                 masterList.push(subNode.id.name)
-                                if(subNode.params?.length){
-                                    const paramsList = subNode.params
-                                    paramsList.forEach(parameter => {
-                                        if(parameter.type === "Identifier"){
-                                            masterList.push(parameter.name)
-                                        }
-                                        else if (parameter.type === "AssignmentPattern"){
-                                            masterList.push(parameter.left.name)
-                                        }
-                                    })
-                                }
+                                addNamesToMasterList(subNode.params)
                             }
                             else if (subNode.type === 'ImportDeclaration') {
                                 masterList.push(subNode.specifiers[0].local.name)
