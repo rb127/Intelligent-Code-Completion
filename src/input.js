@@ -1,29 +1,13 @@
-const bcd = "foo";
-foobarbaz^
+{
+  const foobar;
+  {
+    const foo^;
+  }
 
-
-// {
-//   const foobarbaz;
-//   {
-//       const foobar;
-//       {
-//           foo^
-//       }
-//   }
-// }
-
-// {
-//   const foobar;
-//   {
-//     const foo^;
-//   }
-
-//   {
-//     const foobarbaz;
-//   }
-// }
-
-
+  {
+    const foobarbaz;
+  }
+}
 // import { terser } from "rollup-plugin-terser";
 // import { babel } from "@rollup/plugin-babel";
 // import RollupPluginPreprocess from "rollup-plugin-preprocess";
