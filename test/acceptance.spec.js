@@ -30,10 +30,10 @@ describe('returnSugestions (Acceptance Tests)', () => {
 
     it('should return empty list if cursor is in commented code', () => {
         const result = returnSuggestions(
-            `\\ import parse from 'acorn-loose';
-        \\ import * as promises from 'node:fs/promises
-        \\ const foo = "hello world"
-        \\ foɅ 
+        `   // import parse from 'acorn-loose';
+            // import * as promises from 'node:fs/promises
+            // const foo = "hello world"
+            // foɅ 
         `);
         expect(result).to.have.lengthOf(0)
     })
