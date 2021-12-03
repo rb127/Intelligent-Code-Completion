@@ -8,10 +8,11 @@ export function stringMatch(words, searchStr, threshold_score = 0.3, orderedBySc
         searchStr - The Search phrase to search for
         theresholdScore - The error tolerance level (a lesser number is less error tolerant)
     */
+    words = [...new Set(words)];
     
     let options = {
         includeScore: true,
-        minMatchCharLenth: 2,
+        minMatchCharLenth: 1,
         shouldSort: !orderedByScope,
         location: 0,
         threshold: threshold_score}
