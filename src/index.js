@@ -132,7 +132,6 @@ export const returnSuggestions = (file) => {
                 }
 
             }
-            console.log("MASTER", masterList)
             writeFileSync("fullAncestor.json", JSON.stringify(ancestors, 0, 2))
         }
     })
