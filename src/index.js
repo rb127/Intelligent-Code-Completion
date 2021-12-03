@@ -90,7 +90,7 @@ export const returnSuggestions = (file) => {
             for (let i = ancestors.length - 1; i >= 0; i--) {
                 const ancestor = ancestors[i]
                 if (ancestor.type === 'ForStatement') {
-                    if (ancestor.init?.type === 'VariableDeclaration') {
+                    if (ancestor.init.type === 'VariableDeclaration') {
                         ancestor.init.declarations.forEach((variable => {
                             masterList.push(variable.id.name) 
                         }))          
@@ -107,8 +107,8 @@ export const returnSuggestions = (file) => {
                         try{
                         for (const subNode of ancestor.body) {
                             if (subNode.type === 'VariableDeclaration') {
-                                subNode.declarations?.forEach((variable => {
-                                    masterList.push(variable.id?.name) 
+                                subNode.declarations.forEach((variable => {
+                                    masterList.push(variable.id.name) 
                                 }))
                             }
                             else if (subNode.type === 'ClassDeclaration') {
