@@ -33,12 +33,12 @@ docker run a1-302-container
 #### (Optional) Running tests
 Without coverage
 ```
-docker run a1-302-container npm run test
+docker run a1-302-container yarn run test
 ```
 
 With coverage
 ```
-docker run a1-302-container npm run coverage
+docker run a1-302-container yarn run coverage
 ```
 ### (Optional) Scripts
 There are two bash scripts in the scripts folder:
