@@ -4,7 +4,7 @@ import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findN
 import { stringMatch } from './stringMatching.js'
 import { addKeywords } from './keywords.js';
 
-const CURSOR_SYMBOL = 'Ʌ'
+export const CURSOR_SYMBOL = 'Ʌ'
 /* 
 fileContents: Input file read as String
 Returns cursor position as denoted by CURSOR_SYMBOL if present
@@ -44,95 +44,80 @@ export const getReferenceString = (fileContents, cursorPos) => {
 }
 
 // How to find cursor node given a cursor position
-const getCursorNode = (parsedData, cursorPos) => {
+export const getCursorNode = (parsedData, cursorPos) => {
     let cursorNode = findNodeAround(parsedData, cursorPos - 1)
     writeFileSync("currentCursorNode.json", JSON.stringify(cursorNode, 0, 2))
     return cursorNode
 }
 
 export const returnSuggestions = (file) => {
-    //TODO
     // check validity of input
     let masterList = []
-    // const file = readInputFile()
     const cursorPosition = getCursorPosition(file)
-    // no caret symbol found 
+    // no cursor symbol found 
     if (cursorPosition === -1) {
-        console.log("No cursor position (caret symbol) found \nSuggestions: []")
+        console.log(`No cursor symbol (${CURSOR_SYMBOL}) found \nSuggestions: []`)
         return []
     }
-
-    console.log("Cursor position is at", cursorPosition)
     const referenceString = getReferenceString(file, cursorPosition)
-    console.log("Reference string is", referenceString)
+
     if (referenceString == "") {
         console.log("whitespace found before cursor \nSuggestions: []")
         return []
     }
 
     const parsedData = parseInputFile(file);
-    // console.log(parsedData)
-    const cursorNode = getCursorNode(parsedData, cursorPosition)
 
-    const nodeTypeFn = new Function(cursorNode.node.type)
-    console.log(nodeTypeFn)
-    console.log(cursorNode.node.start)
+    const cursorNode = getCursorNode(parsedData, cursorPosition)
 
     writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
 
+    const addNamesToMasterList = (paramsList) => {
+        if(paramsList.length){
+            paramsList.forEach(parameter => {
+                if(parameter.type === "Identifier"){
+                    masterList.push(parameter.name)
+                }
+                else if (parameter.type === "AssignmentPattern"){
+                    masterList.push(parameter.left.name)
+                }
+            })
+        }
+    }
+
     fullAncestor(parsedData, (node, err, ancestors) => {
-        // console.log(`There's a ${node.type} node at ${node.ch}`)
+        // Looking for cursor node 
         if (node.type == cursorNode.node.type && node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
-            console.log("Found Cursor node")
-            // console.log(ancestors)
             for (let i = ancestors.length - 1; i >= 0; i--) {
                 const ancestor = ancestors[i]
                 if (ancestor.type === 'ForStatement') {
-                    if (ancestor.init?.type === 'VariableDeclaration') {
-                        masterList.push(ancestor.init.declarations[0].id.name)
+                    if (ancestor.init.type === 'VariableDeclaration') {
+                        ancestor.init.declarations.forEach((variable => {
+                            masterList.push(variable.id.name) 
+                        }))          
                     }
                 }
-                // else if(ancestor.type === "ExpressionStatement" && ancestor.expression?.type === "CallExpression"){
-                //     const expression = ancestor.expression
-                //     expression.arguments.forEach((arg => {
-                //         if (arg.type === "ArrowFunctionExpression"){
-                //             if(arg.params?.length){
-                //                 const paramsList = arg.params
-                //                 paramsList.forEach(parameter => {
-                //                 masterList.push(parameter.name)
-                //                 //console.log(parameter.name)
-                //                 })
-                //             }
-                //         }
-                //     }))
-                // }
                 else if (ancestor.type === "ArrowFunctionExpression"){
-                    if(ancestor.params?.length){
-                        const paramsList = ancestor.params
-                        paramsList.forEach(parameter => {
-                        masterList.push(parameter.name)
-                        })
-                    }
-                    
+                   addNamesToMasterList(ancestor.params)
+                }
+                else if (ancestor.type === "FunctionExpression"){
+                    addNamesToMasterList(ancestor.params)
                 }
                 else {
-                    if ("body" in ancestor && ancestor.type !== 'FunctionDeclaration') {
+                    if ("body" in ancestor && (ancestor.type === 'BlockStatement' || ancestor.type === 'Program')) {
                         try{
                         for (const subNode of ancestor.body) {
                             if (subNode.type === 'VariableDeclaration') {
-                                masterList.push(subNode.declarations[0].id.name)
+                                subNode.declarations.forEach((variable => {
+                                    masterList.push(variable.id.name) 
+                                }))
                             }
                             else if (subNode.type === 'ClassDeclaration') {
                                 masterList.push(subNode.id.name)
                             }
                             else if (subNode.type === 'FunctionDeclaration') {
                                 masterList.push(subNode.id.name)
-                                if(subNode.params?.length){
-                                    const paramsList = subNode.params
-                                    paramsList.forEach(parameter => {
-                                    masterList.push(parameter.name)
-                                    })
-                                }
+                                addNamesToMasterList(subNode.params)
                             }
                             else if (subNode.type === 'ImportDeclaration') {
                                 masterList.push(subNode.specifiers[0].local.name)
