@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findNodeAfter } from 'acorn-walk';
 
 const CURSOR_SYMBOL = '^'
-const masterList = []
+
 /* 
 fileContents: Input file read as String
 Returns cursor position as denoted by CURSOR_SYMBOL if present
@@ -137,16 +137,6 @@ export const returnSuggestions = () => {
         if (node.type == cursorNode.node.type && node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
             console.log("Found Cursor node")
             console.log(ancestors)
-            for (const ancestor of ancestors) {
-                if ("type" in ancestor){
-                    for (const subNode of ancestor.body){
-                        if (subNode.type === 'VariableDeclaration') {
-                            masterList.push(subNode.declarations[0].id.name)
-                        }
-                    }
-                }
-            }
-            console.log(masterList)
             writeFileSync("fullAncestor.json", JSON.stringify(node))
             parsedNode = node
         }
