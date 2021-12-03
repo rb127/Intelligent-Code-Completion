@@ -50,14 +50,12 @@ const getCursorNode = (parsedData, cursorPos) => {
 }
 
 export const returnSuggestions = (file) => {
-    //TODO
     // check validity of input
     let masterList = []
-    // const file = readInputFile()
     const cursorPosition = getCursorPosition(file)
-    // no caret symbol found 
+    // no cursor symbol found 
     if (cursorPosition === -1) {
-        console.log("No cursor position (caret symbol) found \nSuggestions: []")
+        console.log("No cursor position (defined symbol) found \nSuggestions: []")
         return []
     }
 
@@ -70,7 +68,7 @@ export const returnSuggestions = (file) => {
     }
 
     const parsedData = parseInputFile(file);
-    // console.log(parsedData)
+
     const cursorNode = getCursorNode(parsedData, cursorPosition)
 
     const nodeTypeFn = new Function(cursorNode.node.type)
@@ -80,36 +78,27 @@ export const returnSuggestions = (file) => {
     writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
 
     fullAncestor(parsedData, (node, err, ancestors) => {
-        // console.log(`There's a ${node.type} node at ${node.ch}`)
         if (node.type == cursorNode.node.type && node.start == cursorNode.node.start && node.end == cursorNode.node.end) {
             console.log("Found Cursor node")
-            // console.log(ancestors)
             for (let i = ancestors.length - 1; i >= 0; i--) {
                 const ancestor = ancestors[i]
                 if (ancestor.type === 'ForStatement') {
                     if (ancestor.init?.type === 'VariableDeclaration') {
-                        masterList.push(ancestor.init.declarations[0].id.name)
+                        ancestor.init.declarations.forEach((variable => {
+                            masterList.push(variable.id.name) 
+                        }))          
                     }
                 }
-                // else if(ancestor.type === "ExpressionStatement" && ancestor.expression?.type === "CallExpression"){
-                //     const expression = ancestor.expression
-                //     expression.arguments.forEach((arg => {
-                //         if (arg.type === "ArrowFunctionExpression"){
-                //             if(arg.params?.length){
-                //                 const paramsList = arg.params
-                //                 paramsList.forEach(parameter => {
-                //                 masterList.push(parameter.name)
-                //                 //console.log(parameter.name)
-                //                 })
-                //             }
-                //         }
-                //     }))
-                // }
                 else if (ancestor.type === "ArrowFunctionExpression"){
                     if(ancestor.params?.length){
                         const paramsList = ancestor.params
                         paramsList.forEach(parameter => {
-                        masterList.push(parameter.name)
+                            if(parameter.type === "Identifier"){
+                                masterList.push(parameter.name)
+                            }
+                            else if (parameter.type === "AssignmentPattern"){
+                                masterList.push(parameter.left.name)
+                            }
                         })
                     }
                     
@@ -119,7 +108,9 @@ export const returnSuggestions = (file) => {
                         try{
                         for (const subNode of ancestor.body) {
                             if (subNode.type === 'VariableDeclaration') {
-                                masterList.push(subNode.declarations[0].id.name)
+                                subNode.declarations?.forEach((variable => {
+                                    masterList.push(variable.id?.name) 
+                                }))
                             }
                             else if (subNode.type === 'ClassDeclaration') {
                                 masterList.push(subNode.id.name)
@@ -129,7 +120,12 @@ export const returnSuggestions = (file) => {
                                 if(subNode.params?.length){
                                     const paramsList = subNode.params
                                     paramsList.forEach(parameter => {
-                                    masterList.push(parameter.name)
+                                        if(parameter.type === "Identifier"){
+                                            masterList.push(parameter.name)
+                                        }
+                                        else if (parameter.type === "AssignmentPattern"){
+                                            masterList.push(parameter.left.name)
+                                        }
                                     })
                                 }
                             }
