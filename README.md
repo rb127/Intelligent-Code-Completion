@@ -45,6 +45,10 @@ There are two bash scripts in the scripts folder:
 - `build.sh`: To build the docker container in a single step
 - `test.sh`: To run the docker container, run test suite, and run code coverage in a single step
 
+### Running with your own input file
+To run with your own input file:
+- Paste the file contents into src/input.js
+- Specify cursor position in the file using the '@' symbol.
 
 ## Resources
 Documentation and links to libraries, resources considered are in the meeting notes.
