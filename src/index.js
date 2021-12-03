@@ -21,12 +21,12 @@ const readInputFile = () => {
     }
 }
 
-export const parseInputFile = (fileContents) => {
-    const parsedResult = parse(fileContents, { ecmaVersion: 2020 });
+export const customParse = () => {
+    const parsedResult = parse(readInputFile(), { ecmaVersion: 2020 });
     return parsedResult
 }
 
-const parsedData = parseInputFile(readInputFile());
+const parsedData = customParse();
 writeFileSync("parsedData.json", JSON.stringify(parsedData, 0, 2))
 
 let parsedNode = findNodeAt(parsedData, 64, 65, 'VariableDeclarator')
@@ -93,11 +93,9 @@ ancestor(parsedData, {
 })
 
 // How to find cursor node given a cursor position
-const getCursorNode = (cursorPos) => {
-    let cursorNode = findNodeAround(parsedData, cursorPos - 1)
-    writeFileSync("currentCursorNode.json", JSON.stringify(cursorNode, 0, 2))
-    return cursorNode
-}
+const cursorPos = 69;
+let node = findNodeAround(parsedData, cursorPos - 1)
+writeFileSync("currentCursorNode.json", JSON.stringify(node, 0, 2))
 
 export const returnSuggestions = () => {
     //TODO
@@ -112,16 +110,6 @@ export const returnSuggestions = () => {
 
     console.log("Cursor position is at", cursorPosition)
     console.log("Reference string is", getReferenceString(file, cursorPosition))
-
-    const cursorNode = getCursorNode(cursorPosition)
-    fullAncestor(cursorNode, node => {
-        // console.log(`There's a ${node.type} node at ${node.ch}`)
-
-        if (node.type == 'Program') {
-            writeFileSync("fullCursorNodeAncestor.json", JSON.stringify(node, 0, 2))
-            parsedNode = node
-        }
-    })
 }
 
 returnSuggestions()
