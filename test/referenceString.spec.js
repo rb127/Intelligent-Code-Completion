@@ -8,7 +8,7 @@ describe('getReferenceString', () => {
         expect(referenceString).to.equal('')
     });
 
-    it('should return correct string before cursor if no whitespace', () => {
+    it('should return correct string before cursor if no whitespace upto the nearest whitespace on the left', () => {
         const file = "const foo = barɅ"
         const referenceString = getReferenceString(file, 15);
         expect(referenceString).to.equal('bar')
