@@ -6,7 +6,7 @@ import commonjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import license from "rollup-plugin-license";
 import pkg from "./package.json";
-const p
+
 function replaceVersion() {
   return replace({
     delimiters: ["", ""],
@@ -20,7 +20,7 @@ function licenseBanner() {
     commit = execSync("git rev-parse --short=10 HEAD")
       .toString()
       .trim();
-  } catch (e) { }
+  } catch (e) {}
   return license({
     banner: {
       content: { file: "./src/license.js" },
@@ -152,22 +152,22 @@ const umdPolyfills = {
   ]
 };
 
-const esPolyfills^ = {
+const esPolyfills = {
   input: "src/polyfills.js",
-    output: [
-      {
-        file: "dist/polyfills.es.js",
-        format: "es",
-        name: "jspdf-polyfills",
-        plugins: [terser({})]
-      }
-    ],
-      external: externals,
-        plugins: [licenseBanner()]
+  output: [
+    {
+      file: "dist/polyfills.es.js",
+      format: "es",
+      name: "jspdf-polyfills",
+      plugins: [terser({})]
+    }
+  ],
+  external: externals,
+  plugins: [licenseBanner()]
 };
 
 function matchSubmodules(externals) {
-  return externals.map(e => new RegExp(`${e}(?:[/\\\\]|$)`));
+  return externals.map(e => new RegExp(`^${e}(?:[/\\\\]|$)`));
 }
 
 export default [umd, es, node, umdPolyfills, esPolyfills];
