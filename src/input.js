@@ -8,8 +8,19 @@ for(let interior = 0; interior <= limit; interior++){
 }
 
 function indefiniteFun (insideFun, inter){
-  inɅ
 }
+const result = []
+result.forEach(element => {
+  if(element.score <= threshold_score){
+      suggestions.push(eleint)
+      ele
+  }
+});
+
+result.reduce((accumulator, curr) => {
+  acɅ
+  return accumulator + curr 
+}, 10)
 
 // {
 //   const foobarbaz;
