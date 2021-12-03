@@ -21,8 +21,14 @@ export function stringMatch(words, searchStr, threshold_score = 0.3, orderedBySc
     
     let suggestions = []
     result.forEach(element => {
-        suggestions.push(element.item)
+      if(element.score <= threshold_score){
+          suggestions.push(element.item)
+      }
     });
 
     return suggestions
 }
+
+let words = ['cursor', 'parsor', 'parser']
+let searchStr = 'carsor'
+console.log(stringMatch(words, searchStr))
