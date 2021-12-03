@@ -1,6 +1,6 @@
 import { parse } from 'acorn-loose';
 import { readFileSync, writeFileSync } from 'fs';
-import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findNodeAfter } from 'acorn-walk';
+import { fullAncestor, findNodeAround, } from 'acorn-walk';
 import { stringMatch } from './stringMatching.js'
 import { addKeywords } from './keywords.js';
 
@@ -132,6 +132,8 @@ export const returnSuggestions = (file) => {
                 }
 
             }
+            console.log("Reference string:",referenceString)
+            console.log("Master list of all possible suggestions:", masterList)
             writeFileSync("fullAncestor.json", JSON.stringify(ancestors, 0, 2))
         }
     })
@@ -142,4 +144,4 @@ export const returnSuggestions = (file) => {
 
 const result = returnSuggestions(readInputFile())
 
-console.log(result)
+console.log("Relevant Suggestions with keywords:",result)

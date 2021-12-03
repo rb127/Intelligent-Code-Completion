@@ -1,5 +1,11 @@
 import { expect } from 'chai'
 import { returnSuggestions, CURSOR_SYMBOL } from '../src/index.js'
+/* 
+Our client (Greg) has seen these tests and verified them. 
+We have kept the acceptance criteria the same as these tests.
+Please refer to A2.md for further information on how we decided to pursue test 
+driven development with input from our client.
+*/
 
 describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if file is empty', () => {
