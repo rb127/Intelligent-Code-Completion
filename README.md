@@ -3,7 +3,7 @@ CSC302 Fall 2021 Javascript project on Intelligent Code Completion.
 Team Javaslipt.
 - [Link to Assignment 1 Document](https://github.com/rb127/Intelligent-Code-Completion/blob/main/A1.md)
 - [Link to Assignment 2 Document](https://github.com/rb127/Intelligent-Code-Completion/blob/main/A2.md)
-
+- [Link to Assignment 3 Document](https://github.com/rb127/Intelligent-Code-Completion/blob/a3/A3.md)
 ## Setup Instructions
 
 ### Prerequisites
@@ -33,12 +33,12 @@ docker run a1-302-container
 #### (Optional) Running tests
 Without coverage
 ```
-docker run a1-302-container npm run test
+docker run a1-302-container yarn run test
 ```
 
 With coverage
 ```
-docker run a1-302-container npm run coverage
+docker run a1-302-container yarn run coverage
 ```
 ### (Optional) Scripts
 There are two bash scripts in the scripts folder:
