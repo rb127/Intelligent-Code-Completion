@@ -4,7 +4,7 @@ import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findN
 import { stringMatch } from './stringMatching.js'
 import { addKeywords } from './keywords.js';
 
-export const CURSOR_SYMBOL = 'Ʌ'
+export const CURSOR_SYMBOL = '@'
 /* 
 fileContents: Input file read as String
 Returns cursor position as denoted by CURSOR_SYMBOL if present
