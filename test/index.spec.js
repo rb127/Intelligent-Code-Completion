@@ -4,12 +4,12 @@ import { returnSuggestions, getCursorPosition, getReferenceString } from '../src
 describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if file is empty', () => {
         const result = returnSuggestions(` ^`);
-        expect(result).to.have.lengthOf(0)
+        expect(result).to.equal([])
     });
 
     it('should return empty list if no cursor found', () => {
         const result = returnSuggestions(`const foo = bar;`);
-        expect(result).to.have.lengthOf(0)
+        expect(result).to.equal([])
     });
 
     it('should return empty list if no matches found', () => {
@@ -17,15 +17,15 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `const abc = "foo";
              foobarbaz^
         `);
-        expect(result).to.have.lengthOf(0)
+        expect(result).to.equal([])
     });
 
     it('should return empty list if no character before cursor', () => {
+        expect(result).to.equal([])
         const result = returnSuggestions(
             `const foo = "bar";
              const a = fo ^
         `);
-        expect(result).to.have.lengthOf(0)
     });
 
     it('should return empty list if cursor is in commented code', () => {
@@ -35,7 +35,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         \\ const foo = "hello world"
         \\ fo^ 
         `);
-        expect(result).to.have.lengthOf(0)
+        expect(result).to.equal([])
     })
 
     it('should return list of keywords after character', () => {
