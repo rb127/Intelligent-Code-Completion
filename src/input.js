@@ -1,13 +1,16 @@
+const bcd = "foo";
+foobarbaz^
 
-{
-  const foobarbaz;
-  {
-      const foobar;
-      {
-          foibarɅ
-      }
-  }
-}
+
+// {
+//   const foobarbaz;
+//   {
+//       const foobar;
+//       {
+//           foo^
+//       }
+//   }
+// }
 
 // {
 //   const foobar;
