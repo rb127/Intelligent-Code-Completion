@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findNodeAfter } from 'acorn-walk';
 import { stringMatch } from '../src/stringMatching.js'
 
-const CURSOR_SYMBOL = 'Ʌ'
+export const CURSOR_SYMBOL = 'Ʌ'
 /* 
 fileContents: Input file read as String
 Returns cursor position as denoted by CURSOR_SYMBOL if present

@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { returnSuggestions } from '../src/index.js'
+import { returnSuggestions, CURSOR_SYMBOL } from '../src/index.js'
 
 describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if file is empty', () => {
-        const result = returnSuggestions(` Ʌ`);
+        const result = returnSuggestions(`${CURSOR_SYMBOL}`);
         expect(result).to.have.lengthOf(0)
     });
 
@@ -15,7 +15,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if no matches found', () => {
         const result = returnSuggestions(
             `const abc = "foo";
-             foobarbazɅ
+             foobarbaz${CURSOR_SYMBOL}
         `);
         expect(result).to.have.lengthOf(0)
     });
@@ -23,7 +23,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if no character before cursor', () => {
         const result = returnSuggestions(
             `const foo = "bar";
-             const a = fo Ʌ
+             const a = fo ${CURSOR_SYMBOL}
         `);
         expect(result).to.have.lengthOf(0)
     });
@@ -33,14 +33,14 @@ describe('returnSugestions (Acceptance Tests)', () => {
         `   // import parse from 'acorn-loose';
             // import * as promises from 'node:fs/promises
             // const foo = "hello world"
-            // foɅ 
+            // fo${CURSOR_SYMBOL} 
         `);
         expect(result).to.have.lengthOf(0)
     })
 
     it('should return list of keywords after character', () => {
         const result = returnSuggestions(
-            `const foo = cɅ
+            `const foo = c${CURSOR_SYMBOL}
         `);
         expect(result).to.have.members(["case", "catch", "char", "class", "const", "continue"])
     });
@@ -49,7 +49,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         const result = returnSuggestions(
             `const PIZZa = "Thin crust" 
              const pico = "pizza store"
-             piɅ
+             pi${CURSOR_SYMBOL}
         `);
         expect(result).to.include("PIZZa", "pico")
     });
@@ -59,7 +59,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             const result = returnSuggestions(
                 `const Pizza = "Thin crust"; 
              const pico = ;
-             piɅ
+             pi${CURSOR_SYMBOL}
         `);
             expect(result).to.include("Pizza", "pico")
         });
@@ -68,7 +68,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         () => {
             const result = returnSuggestions(
                 `const Pizza = "Thin crust" 
-             piɅ
+             pi${CURSOR_SYMBOL}
              const pico = ;
         `);
             expect(result).to.contain("Pizza", "pico")
@@ -79,7 +79,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `import parse from 'acorn-loose';
             import * as promises from 'node:fs/promises;
             
-            pɅ
+            p${CURSOR_SYMBOL}
         `);
         expect(result).to.include("parse", "promises")
     });
@@ -91,7 +91,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
                 {
                     const foobar;
                     {
-                        fooɅ
+                        foo${CURSOR_SYMBOL}
                     }
                 }
             }
@@ -104,7 +104,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `{
                 const foobar;
                 {   
-                    const fooɅ;
+                    const foo${CURSOR_SYMBOL};
                 }
 
                 {
@@ -120,7 +120,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
             `import parse from 'acorn-loose';
         import * as promises from 'node:fs/promises
         const foo = "hello world"
-        foɅ 
+        fo${CURSOR_SYMBOL}
         `);
         expect(result).to.include("foo", "for")
     });
@@ -137,7 +137,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
 
             const hey = () => {return 100}
 
-            hɅ
+            h${CURSOR_SYMBOL}
         `);
         expect(result).to.include("hello", "hey", "hi")
     });
@@ -159,7 +159,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
 
         }
 
-        let user = new UsɅ
+        let user = new Us${CURSOR_SYMBOL}
         `);
         expect(result).to.include("User")
     });
