@@ -42,7 +42,7 @@ describe('returnSugestions (Acceptance Tests)', () => {
         const result = returnSuggestions(
             `const foo = cɅ
         `);
-        expect(result).to.include("case", "catch", "char", "class", "const", "continue")
+        expect(result).to.have.members(["case", "catch", "char", "class", "const", "continue"])
     });
 
     it('should return matched suggestions as case insensitive', () => {
