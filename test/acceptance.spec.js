@@ -163,4 +163,34 @@ describe('returnSugestions (Acceptance Tests)', () => {
         `);
         expect(result).to.include("User")
     });
+
+    it('should include function parameters if cursor in function body', () => {
+        const result = returnSuggestions(
+            `
+            function foo(one, two, three) {
+                thr${CURSOR_SYMBOL}
+            }
+        `);
+        expect(result).to.include("three")
+    });
+
+    it('should include arrow function parameters if cursor in function body', () => {
+        const result = returnSuggestions(
+            `
+            const foo = (one, two, three) => {
+                thr${CURSOR_SYMBOL}
+            }
+        `);
+        expect(result).to.include("three")
+    });
+
+    it('should include variables defined in for loop if cursor in loop body', () => {
+        const result = returnSuggestions(
+            `
+            for (let foo = 0; foo < 10; foo++) {
+                fo${CURSOR_SYMBOL}
+            }
+        `);
+        expect(result).to.include("foo")
+    });
 });
