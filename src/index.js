@@ -56,7 +56,7 @@ export const returnSuggestions = (file) => {
     const cursorPosition = getCursorPosition(file)
     // no cursor symbol found 
     if (cursorPosition === -1) {
-        console.log("No cursor position (defined symbol) found \nSuggestions: []")
+        console.log(`No cursor symbol (${CURSOR_SYMBOL}) found \nSuggestions: []`)
         return []
     }
     const referenceString = getReferenceString(file, cursorPosition)
