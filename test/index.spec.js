@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { returnSuggestions, getCursorPosition, getReferenceString } from '../src/index.js'
+import { returnSuggestions, getCursorPosition } from '../src/index.js'
 
 describe('returnSugestions (Acceptance Tests)', () => {
     it('should return empty list if file is empty', () => {
@@ -158,19 +158,5 @@ describe('getCursorPosition', () => {
     it('should return -1 if caret symbol not found', () => {
         const result = getCursorPosition(`const foo = c`);
         expect(result).to.equal(-1)
-    });
-});
-
-describe('getReferenceString', () => {
-    it('should return empty string if whitespace found before cursor pos', () => {
-        const file = "const foo ^"
-        const referenceString = getReferenceString(file, 10);
-        expect(referenceString).to.equal('')
-    });
-
-    it('should return correct string before cursor if no whitespace', () => {
-        const file = "const foo = bar^"
-        const referenceString = getReferenceString(file, 15);
-        expect(referenceString).to.equal('bar')
     });
 });
