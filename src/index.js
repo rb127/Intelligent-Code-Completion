@@ -2,7 +2,7 @@ import { parse } from 'acorn-loose';
 import { readFileSync, writeFileSync } from 'fs';
 import { simple, full, ancestor, fullAncestor, findNodeAt, findNodeAround, findNodeAfter } from 'acorn-walk';
 
-const CURSOR_SYMBOL = 'Ʌ'
+const CURSOR_SYMBOL = '^'
 /* 
 fileContents: Input file read as String
 Returns cursor position as denoted by CURSOR_SYMBOL if present
@@ -50,6 +50,7 @@ const getCursorNode = (parsedData,cursorPos) => {
 
 export const returnSuggestions = (file) => {
     //TODO
+    console.log("FILE", file)
     // check validity of input
     let masterList = []
     // const file = readInputFile()
@@ -69,7 +70,7 @@ export const returnSuggestions = (file) => {
     }
 
     const parsedData = parseInputFile(file);
-    // console.log(parsedData)
+
     const cursorNode = getCursorNode(parsedData, cursorPosition)
 
     const nodeTypeFn = new Function(cursorNode.node.type)
@@ -88,20 +89,15 @@ export const returnSuggestions = (file) => {
                 const ancestor = ancestors[i]
             // }            
             // for (const ancestor of ancestors) {
-                if ("body" in ancestor && ancestor.type !== 'FunctionDeclaration'){                
+                if ("body" in ancestor){
+                    // console.log("BODY", ancestor.body)                    
                     for (const subNode of ancestor.body){
                         if (subNode.type === 'VariableDeclaration') {
                             masterList.push(subNode.declarations[0].id.name)
                         }
-                        else if (subNode.type === 'ClassDeclaration') {
-                            masterList.push(subNode.id.name)
-                        }
-                        else if (subNode.type === 'FunctionDeclaration') {
-                            masterList.push(subNode.id.name)
-                        }
-                        else if (subNode.type === 'ImportDeclaration') {
-                            masterList.push(subNode.specifiers[0].local.name)
-                        }
+                        else if (subNode.type === 'VariableDeclaration') {
+                            masterList.push(subNode.declarations[0].id.name)
+                        } 
                     }
                 }
             }
