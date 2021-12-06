@@ -33,13 +33,16 @@ Returns the word just before the cursor.
 Returns '' if there is a space just before cursor instead of a word.
 */
 export const getReferenceString = (fileContents, cursorPos) => {
+    var suggestion = '';
     var preCursorContent = fileContents.substring(0, cursorPos);
     if (preCursorContent.indexOf(" ") > 0) {
         const content = preCursorContent.split(" ");
-        return content[content.length - 1];
+        suggestion = content[content.length - 1].replace(/[^a-z0-9]/gi,'');
+        return suggestion;
     }
     else {
-        return preCursorContent;
+        suggestion = preCursorContent;
+        return suggestion;
     }
 }
 
